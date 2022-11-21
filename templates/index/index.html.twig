@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello IndexController!{% endblock %}
+
+{% block body %}
+    <p>
+        Now you can visit <a href="{{ app.request.schemeAndHttpHost ~'/push' }}"
+                            target="_blank">{{ app.request.schemeAndHttpHost~'/push' }}</a> to test it
+    </p>
+    <div id="mercure_message">
+
+    </div>
+    <script>
+        const eventSource = new EventSource("{{ mercure('books')|escape('js') }}");
+        const dom = document.querySelector('#mercure_message')
+        console.log(dom)
+        eventSource.onmessage = event => {
+            // Will be called every time an update is published by the server
+            console.log(JSON.parse(event.data));
+            let message = JSON.parse(event.data);
+            dom.insertAdjacentHTML('afterbegin', '<p>' + message.status + '</p>')
+        }
+    </script>
+{% endblock %}
+
