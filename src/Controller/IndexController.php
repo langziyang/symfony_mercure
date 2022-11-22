@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
@@ -33,4 +34,22 @@ class IndexController extends AbstractController
 
         return $this->json('done');
     }
+
+    #[Route('/chat', name: 'chat')]
+    public function chat(Request $request, HubInterface $hub)
+    {
+        try {
+            $update = new Update(
+                'chat',
+                $request->getContent()
+            );
+            $hub->publish($update);
+        } catch (\Exception $e) {
+            return $this->json([
+                'message' => $e->getMessage()
+            ], Response::HTTP_BAD_GATEWAY);
+        }
+        return $this->json($request->getContent());
+    }
+
 }

@@ -11,6 +11,10 @@ composer install
 
 docker compose up -d --build mercure
 
+yarn install
+
+yarn run build
+
 symfony server:start --no-tls
 
 ```

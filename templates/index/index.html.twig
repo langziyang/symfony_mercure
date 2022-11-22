@@ -3,12 +3,44 @@
 {% block title %}Hello IndexController!{% endblock %}
 
 {% block body %}
-    <p>
-        Now you can visit <a href="{{ app.request.schemeAndHttpHost ~'/push' }}"
-                            target="_blank">{{ app.request.schemeAndHttpHost~'/push' }}</a> to test it
-    </p>
-    <div id="mercure_message">
+    <div class="flex-col md:flex-row md:flex">
+        <div class="w-full md:w-1/2">
+            <p>
+                Now you can visit
+                <a href="{{ app.request.schemeAndHttpHost ~'/push' }}"
+                   target="_blank"
+                   class="btn btn-link btn-sm ">
+                    {{ app.request.schemeAndHttpHost~'/push' }}
+                </a>
+                to test it
+            </p>
+            <div id="mercure_message">
 
+            </div>
+        </div>
+        <div class="w-full md:w-1/2"
+             data-controller="chat"
+             data-chat-url-value="http://127.0.0.1/.well-known/mercure?topic=chat"
+        >
+            <div>
+                Or you can test chat, your username is : <span data-chat-target="username"></span>
+            </div>
+            <div class="my-3">
+                <input type="text"
+                       class="input input-sm border border-base-200"
+                       placeholder=""
+                       data-chat-target="message">
+                <button class="btn btn-sm"
+                        type="button"
+                        data-action="chat#sendMessage"
+                >
+                    send
+                </button>
+            </div>
+            <div data-chat-target="messageArea">
+
+            </div>
+        </div>
     </div>
     <script>
         const eventSource = new EventSource("{{ mercure('books')|escape('js') }}");
