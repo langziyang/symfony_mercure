@@ -5,7 +5,10 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mercure\Hub;
 use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Jwt\FactoryTokenProvider;
+use Symfony\Component\Mercure\Jwt\StaticTokenProvider;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,8 +23,14 @@ class IndexController extends AbstractController
     }
 
     #[Route('/push', name: 'push')]
-    public function push(HubInterface $hub)
+    public function push(Request $request, HubInterface $hub)
     {
+        // if you use http://127.0.0.1:8000 visit demo, no need change $hub
+        $url = $request->getScheme() . '://' . $request->getHost() . '/.well-known/mercure';
+        $jwt = $hub->getProvider();
+        $hub = new Hub($url, $jwt);
+        // if you use http://127.0.0.1:8000 visit demo, no need change $hub
+
         try {
             $update = new Update(
                 'books',
@@ -38,6 +47,11 @@ class IndexController extends AbstractController
     #[Route('/chat', name: 'chat')]
     public function chat(Request $request, HubInterface $hub)
     {
+        // if you use http://127.0.0.1:8000 visit demo, no need change $hub
+        $url = $request->getScheme() . '://' . $request->getHost() . '/.well-known/mercure';
+        $jwt = $hub->getProvider();
+        $hub = new Hub($url, $jwt);
+        // if you use http://127.0.0.1:8000 visit demo, no need change $hub
         try {
             $update = new Update(
                 'chat',
@@ -51,5 +65,4 @@ class IndexController extends AbstractController
         }
         return $this->json($request->getContent());
     }
-
 }

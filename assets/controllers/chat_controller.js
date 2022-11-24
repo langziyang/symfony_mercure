@@ -12,12 +12,13 @@ import axios from "axios";
  */
 export default class extends Controller {
     static targets = ['message', 'messageArea', 'username']
-    static values = {url: String, username: String}
+    static values = {username: String, url: String}
 
     connect() {
         this.usernameValue = 'user' + parseInt((Math.random() * 1000))
         this.usernameTarget.innerText = this.usernameValue
-        const eventSource = new EventSource(this.urlValue)
+        const eventSource = new EventSource(this.urlValue + "/.well-known/mercure?topic=chat")
+        console.log(this.urlValue)
         eventSource.onmessage = resp => {
             const data = JSON.parse(resp.data)
             if (data.username === this.usernameValue) {
@@ -33,9 +34,10 @@ export default class extends Controller {
         if (message.length <= 0) {
             alert("Message is empty")
         } else {
-            axios.post('http://127.0.0.1:8000/chat', {message, username: this.usernameValue}).then(resp => {
+            axios.post(this.urlValue + ':8000/chat', {message, username: this.usernameValue}).then(resp => {
                 this.messageTarget.value = ''
             })
         }
     }
+
 }

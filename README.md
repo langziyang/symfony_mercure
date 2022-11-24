@@ -2,7 +2,7 @@
 
 the jwt key is: symfony
 
-token is: yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOlsiKiJdfX0.vO5wxP2iwSSpWLb3WLWYwyQ2MA_N_9ZQytZBsJAWN3o
+token is: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOlsiKiJdfX0.vO5wxP2iwSSpWLb3WLWYwyQ2MA_N_9ZQytZBsJAWN3o
 
 # install
 
